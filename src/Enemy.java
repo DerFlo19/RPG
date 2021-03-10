@@ -6,13 +6,10 @@ public class Enemy {
 	private int maxHp;  // Max hp
 	
 	public Enemy(String _name, int _hp) {
-		
 		// Assigning Attributes
 		name = _name;
 		hp = _hp;
 		maxHp = _hp;
-		
-		
 	}
 	
 	public int getHp() {
