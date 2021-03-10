@@ -1,15 +1,19 @@
+import java.util.ArrayList;
 
 public class Enemy {
 	
 	private String name;
 	private int hp; 	// Health points
 	private int maxHp;  // Max hp
+	private ArrayList<Weapon> weapon;
 	
-	public Enemy(String _name, int _hp) {
+	public Enemy(String _name, int _hp, Weapon _weapon) {
 		// Assigning Attributes
 		name = _name;
 		hp = _hp;
 		maxHp = _hp;
+		weapon = new ArrayList<Weapon>();
+		weapon.add(_weapon);
 	}
 	
 	public int getHp() {
@@ -53,6 +57,20 @@ public class Enemy {
 			}
 		}
 		
+	}
+	
+	public ArrayList<Weapon> getWeaponList() {
+		return weapon;
+	} 
+	public void removeWeapon(int i) {
+		weapon.remove(i);
+	}
+	public Weapon getWeapon(int i) {
+		return weapon.get(i);
+	}
+
+	public void addWeapon(Weapon _weapon) {
+		weapon.add(_weapon);
 	}
 
 }
