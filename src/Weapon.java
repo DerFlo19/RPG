@@ -1,12 +1,11 @@
 
-public class Weapon {
+public class Weapon extends Item {
 	
-	private String name;
 	private int dmg;
 	
-	public Weapon(String _name, int _dmg) {
-		name = _name;
-		setDmg(_dmg);
+	public Weapon(String _name, int _worth, int _dmg) {
+		super(_name, _worth);
+		dmg = _dmg;
 	}
 
 	public int getDmg() {
@@ -15,10 +14,6 @@ public class Weapon {
 
 	public void setDmg(int dmg) {
 		this.dmg = dmg;
-	}
-
-	public String getName() {
-		return name;
 	}
 
 }

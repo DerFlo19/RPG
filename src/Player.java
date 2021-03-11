@@ -6,14 +6,16 @@ public class Player {
 	private int hp; 	// Health points
 	private int maxHp;  // Max hp
 	private ArrayList<Weapon> weapon;
+	private int gold;
 	
-	public Player(String _name, int _hp, Weapon _weapon) {
+	public Player(String _name, int _hp, Weapon _weapon, int _gold) {
 		// Assigning Attributes
 		name = _name;
 		hp = _hp;
 		maxHp = _hp;
 		weapon = new ArrayList<Weapon>();
 		weapon.add(_weapon);
+		gold = _gold;
 	}
 	
 	public int getHp() {
@@ -24,6 +26,17 @@ public class Player {
 	}
 	public String getName() {
 		return name;
+	}
+	
+	// Functions to manipulate Gold variable
+	public void addGold(int amount) {
+		gold += amount;
+	}
+	public void removeGold(int amount) {
+		gold -= amount;
+	}
+	public int getGold() {
+		return gold;
 	}
 	
 	public int damage(int dmg) {
