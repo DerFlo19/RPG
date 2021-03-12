@@ -6,16 +6,17 @@ public class Player {
 	private int hp; 	// Health points
 	private int maxHp;  // Max hp
 	private ArrayList<Weapon> weapon;
+	private ArrayList<Item> inventory;
 	private int gold;
 	
-	public Player(String _name, int _hp, Weapon _weapon, int _gold) {
+	public Player(String _name, int _hp, int _gold) {
 		// Assigning Attributes
 		name = _name;
 		hp = _hp;
 		maxHp = _hp;
 		weapon = new ArrayList<Weapon>();
-		weapon.add(_weapon);
 		gold = _gold;
+		inventory = new ArrayList<>();
 	}
 	
 	public int getHp() {
@@ -76,14 +77,26 @@ public class Player {
 		return weapon.get(i);
 	}
 
-	public void addWeapon(Weapon _weapon) {
+	public void equipWeapon(Weapon _weapon) {
 		weapon.add(_weapon);
 	}
-	public void removeWeapon(int i) {
+	public void deequipWeapon(int i) {
 		weapon.remove(i);
 	}
 	public ArrayList<Weapon> getWeaponList() {
 		return weapon;
 	}
-
+	
+	public void addItem(Item _item) {
+		inventory.add(_item);
+	}
+	public void removeItem(int i) {
+		inventory.remove(i);
+	}
+	public ArrayList<Item> getInventory() {
+		return inventory;
+	}
+	public Item getItem(int i) {
+		return inventory.get(i);
+	}
 }
