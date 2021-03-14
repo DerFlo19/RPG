@@ -8,8 +8,9 @@ public class Player {
 	private ArrayList<Weapon> weapon;
 	private ArrayList<Item> inventory;
 	private int gold;
+	private int ac; 	// Armor class
 	
-	public Player(String _name, int _hp, int _gold) {
+	public Player(String _name, int _hp, int _gold, int _ac) {
 		// Assigning Attributes
 		name = _name;
 		hp = _hp;
@@ -17,6 +18,7 @@ public class Player {
 		weapon = new ArrayList<Weapon>();
 		gold = _gold;
 		inventory = new ArrayList<>();
+		setAc(_ac);
 	}
 	
 	public int getHp() {
@@ -98,5 +100,13 @@ public class Player {
 	}
 	public Item getItem(int i) {
 		return inventory.get(i);
+	}
+
+	public int getAc() {
+		return ac;
+	}
+
+	public void setAc(int ac) {
+		this.ac = ac;
 	}
 }

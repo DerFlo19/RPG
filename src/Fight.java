@@ -1,3 +1,4 @@
+import java.util.Random;
 import java.util.Scanner;
 
 public class Fight {
@@ -13,6 +14,16 @@ public class Fight {
 		
 		fight();
 	}
+	
+	private static int getRandomNumberInRange(int min, int max) {
+
+        if (min >= max) {
+            throw new IllegalArgumentException("max must be greater than min");
+        }
+
+        Random r = new Random();
+        return r.nextInt((max - min) + 1) + min;
+    }
 	
 	private void fight() {
 		
@@ -41,13 +52,37 @@ public class Fight {
 				System.out.println(i + " - " + player.getWeapon(i).getName());
 			}
 			if(s.hasNextLine()) {
-				int dmg = s.nextInt();
-				enemy.damage(player.getWeapon(dmg).getDmg());
-				System.out.println("You attacked " + enemy.getName());
+				
+				int choice = s.nextInt();
+				int hit = getRandomNumberInRange(0, 50);
+				hit += player.getWeapon(choice).getPrecision();
+				
+				if(hit >= enemy.getAc()) {
+					
+					enemy.damage(player.getWeapon(choice).getDmg());
+					System.out.println("You attacked the enemy and caused " + player.getWeapon(choice).getDmg() + " damage");
+					
+				} else {
+					
+					System.out.println("You missed!");
+					
+				}
+				
 			}
 			
-			player.damage(enemy.getWeapon(0).getDmg());
-			System.out.println("The enemy attacked you and did " + enemy.getWeapon(0).getDmg() + " Damage");
+			int hit = getRandomNumberInRange(0, 50);
+			hit += enemy.getWeapon(0).getPrecision();
+			
+			if(hit >= enemy.getAc()) {
+				
+				player.damage(enemy.getWeapon(0).getDmg());
+				System.out.println("The enemy attacked you and caused " + player.getWeapon(0).getDmg() + " damage");
+				
+			} else {
+				
+				System.out.println("The enemy missed!");
+				
+			}
 			
 		}
 		

@@ -6,14 +6,16 @@ public class Enemy {
 	private int hp; 	// Health points
 	private int maxHp;  // Max hp
 	private ArrayList<Weapon> weapon;
+	private int ac;
 	
-	public Enemy(String _name, int _hp, Weapon _weapon) {
+	public Enemy(String _name, int _hp, Weapon _weapon , int _ac) {
 		// Assigning Attributes
 		name = _name;
 		hp = _hp;
 		maxHp = _hp;
 		weapon = new ArrayList<Weapon>();
 		weapon.add(_weapon);
+		setAc(_ac);
 	}
 	
 	public int getHp() {
@@ -71,6 +73,14 @@ public class Enemy {
 
 	public void addWeapon(Weapon _weapon) {
 		weapon.add(_weapon);
+	}
+
+	public int getAc() {
+		return ac;
+	}
+
+	public void setAc(int ac) {
+		this.ac = ac;
 	}
 
 }
