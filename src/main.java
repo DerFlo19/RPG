@@ -25,6 +25,8 @@ public class Main {
 		int choice = s.nextInt();
 		
 		if(choice == 1) {
+			/*
+			doesnt work :/ 
 			
 			System.out.println("\nWhat Text colour do you want?");
 			System.out.println("1 - White");
@@ -41,7 +43,7 @@ public class Main {
 				}
 				
 			}
-			
+			*/
 			System.out.println("\nWhat is your name?");
 			String name = "Player";
 			if(s.hasNext()) {
@@ -85,6 +87,9 @@ public class Main {
 				Scanner sc = new Scanner(System.in);
 				Enemy e = enemies.get(getRandomNumberInRange(0, enemies.size() - 1));
 				Fight f1 = new Fight(e, player);
+				
+				player.heal(1000000);
+				e.heal(1000000000);
 				
 				int alive = f1.fight();
 				if(alive == 0) {

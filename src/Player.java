@@ -42,17 +42,10 @@ public class Player {
 		return gold;
 	}
 	
-	public int damage(int dmg) {
+	public void damage(int dmg) {
 		// dmg is short for Damage
 		// damage the enemy
-		hp -= dmg;
-		
-		// If dead return 1 other wise return 0
-		if(hp <= 0) {
-			return 1; 
-		}
-		
-		return 0;
+		hp = hp - dmg;
 	}
 	
 	public void heal(int heal) {

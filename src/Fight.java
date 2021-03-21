@@ -84,9 +84,8 @@ public class Fight {
 				hitE += enemy.getWeapon(0).getPrecision();
 				
 				if(hitE >= enemy.getAc()) {
-					
 					player.damage(enemy.getWeapon(0).getDmg());
-					System.out.println("The enemy attacked you and caused " + player.getWeapon(0).getDmg() + " damage");
+					System.out.println("The enemy attacked you and caused " + enemy.getWeapon(0).getDmg() + " damage");
 					
 				} else {
 					
