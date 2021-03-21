@@ -1,3 +1,4 @@
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
@@ -15,102 +16,179 @@ public class Main {
         return r.nextInt((max - min) + 1) + min;
     }
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws IOException {
 		
-		System.out.println("RPG - by derFlo19");
-		System.out.println("1 - Start");
-		System.out.println("2 - Leave");
+		MapLoader ml = new MapLoader();
 		
-		Scanner s = new Scanner(System.in);
-		int choice = s.nextInt();
+		Player player = new Player("Flo", 100000, 20, 30, 0, 0);
+		player.equipWeapon(new Weapon("Stick", 0, 5, 20));
 		
-		if(choice == 1) {
-			/*
-			doesnt work :/ 
-			
-			System.out.println("\nWhat Text colour do you want?");
-			System.out.println("1 - White");
-			System.out.println("2 - Green");
-			
-			int colour = s.nextInt();
-			if(colour == 2) {
-			
-				try {
-					Process p = Runtime.getRuntime().exec("color a");
-				} catch (IOException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+		Item[] loot = {new Item("Bones", 5), new Item("Bones", 5), new Weapon("Copper Sword", 10, 25, 20)};
+		Enemy[] enemies = {new Enemy("Goblin", 50, new Weapon("Club", 0, 10, 7), 10), new Enemy("Goblin", 50, new Weapon("Club", 0, 10, 7), 10)};
+		
+		String maplist = ml.listDirectories();
+		Boolean playing = true;
+		int currentMap = 1;
+		while(playing) {
+			System.out.println(maplist);
+			ArrayList<ArrayList<Character>> map = ml.loadMap(maplist + "\\map" + currentMap + ".txt");
+			Boolean onMap = true;
+			for(int i = 0; i < map.size(); i++) {
+				
+				for(int j = 0; j < map.get(i).size(); j++) {
+					
+					if(map.get(i).get(j) == 'S') {
+						
+						player.x = j;
+						player.y = i;
+						
+					}
+					
+				}
+								
+			}
+			Scanner s = new Scanner(System.in);
+			while(onMap) {
+
+				for(int i = 0; i < map.size(); i++) {
+					
+					for(int j = 0; j < map.get(i).size(); j++) {
+						
+						char currentChar = map.get(i).get(j);
+						if(i == player.y && j == player.x) {
+							System.out.print('P');
+						} else if(currentChar == 'S') {
+							System.out.print(' ');
+						} else {
+							System.out.print(currentChar);
+						}
+						
+					}
+					
+					System.out.print("\n");
+					
 				}
 				
-			}
-			*/
-			System.out.println("\nWhat is your name?");
-			String name = "Player";
-			if(s.hasNext()) {
-				name = s.next();
-			}
-			
-			if(name.equals("jon") || name.equals("Jon")) {
-				System.out.println("Jon hat einen Kackefetisch lol");
-			}
-			
-			System.out.println("\nWhat class do you want to play, " + name + "?");
-			System.out.println("1 - Tank - high defense");
-			System.out.println("2 - Fighter - high damage");
-			System.out.println("3 - Knight - average everything");
-			
-			Player player = null;
-			int classChoice = s.nextInt();
-			if(classChoice == 1) {
-				player = new Player(name, 200, 0, 75);
-				player.equipWeapon(new Weapon("Long Sword", 0, 20, 20));
-			} else if(classChoice == 2) {
-				player = new Player(name, 100, 0, 35);
-				player.equipWeapon(new Weapon("Short Sword", 0, 10, 40));
-			} else if(classChoice == 3) {
-				player = new Player(name, 150, 0, 50);
-				player.equipWeapon(new Weapon("Sword", 0, 15, 30));
-			}
-			
-			System.out.println("Everything is now setup!\nYou will now start your first fight");
-			
-			ArrayList<Enemy> enemies = new ArrayList<Enemy>();
-			
-			
-//			enemies.add(new Enemy("Knight", 120, new Weapon("Sword", 0, 40, 30), 40));
-			enemies.add(new Enemy("Goblin", 70, new Weapon("Mace", 0, 20, 10), 20));
-			enemies.add(new Enemy("Goblin", 70, new Weapon("Mace", 0, 20, 10), 20));
-			
-			boolean playing = true;
-			while(playing) {
+				System.out.println("w - up");
+				System.out.println("a - left");
+				System.out.println("s - down");
+				System.out.println("d - right");
+				System.out.println("i - inventory");
+				String direction = s.next();
 				
-				Scanner sc = new Scanner(System.in);
-				Enemy e = enemies.get(getRandomNumberInRange(0, enemies.size() - 1));
-				Fight f1 = new Fight(e, player);
-				
-				player.heal(1000000);
-				e.heal(1000000000);
-				
-				int alive = f1.fight();
-				if(alive == 0) {
-					System.out.println("Restart?");
-					System.out.println("1 - yes");
-					System.out.println("2 - no");
-					if(sc.hasNext()) {
-						int restart = sc.nextInt();
-						if(restart == 1) {
-							continue;
-						} else {
-							break;
+				if(direction.equals("i")) {
+					
+					for(int i = 0; i < player.getInventory().size(); i++) {
+						
+						System.out.println(i + 1 + " - " + player.getItem(i).getName());
+						
+					}
+					
+					int choice = s.nextInt();
+					if(player.getItem(choice - 1).getClass() == Weapon.class) {
+						System.out.println("What do you want to do?");
+						System.out.println("1 - Equip");
+						System.out.println("2 - Delete");
+						System.out.println("3 - cancel");
+						int action = s.nextInt();
+						if(action == 1) {
+							player.equipWeapon((Weapon) player.getItem(choice - 1));
+						} else if(action == 2) {
+							player.removeItem(choice - 1);
+						} 
+						
+					} else {
+						System.out.println("What do you want to do?");
+						System.out.println("1 - Delete");
+						System.out.println("2 - cancel");
+						int action = s.nextInt();
+						if(action == 1) {
+							player.removeItem(choice - 1);
 						}
+					}
+					
+				}
+				
+				if(direction.equals("w") && map.get(player.y - 1).get(player.x) != '#') {
+					if(map.get(player.y - 1).get(player.x) == 'D' && player.keys > 0) {
+						player.keys -= 1;
+						player.y -= 1;
+						map.get(player.y).set(player.x, ' ');
+					} else if(map.get(player.y - 1).get(player.x) == 'D' && player.keys == 0) {
+						System.out.println("You need a key!");
+					} else {
+						player.y -= 1;
+					}
+				}
+				if(direction.equals("a") && map.get(player.y).get(player.x - 1) != '#') {
+					if(map.get(player.y).get(player.x - 1) == 'D' && player.keys > 0) {
+						player.keys -= 1;
+						player.x -= 1;
+						map.get(player.y).set(player.x, ' ');
+					} else if(map.get(player.y).get(player.x - 1) == 'D' && player.keys == 0) {
+						System.out.println("You need a key!");
+					} else {
+						player.x -= 1;
+					}
+				}
+				if(direction.equals("s") && map.get(player.y + 1).get(player.x) != '#') {
+					if(map.get(player.y + 1).get(player.x) == 'D' && player.keys > 0) {
+						player.keys -= 1;
+						player.y += 1;
+						map.get(player.y + 1).set(player.x, ' ');
+					} else if(map.get(player.y).get(player.x) == 'D' && player.keys == 0) {
+						System.out.println("You need a key!");
+					} else {
+						player.y += 1;
+					}
+				}
+				if(direction.equals("d") && map.get(player.y).get(player.x + 1) != '#') {
+					if(map.get(player.y).get(player.x + 1) == 'D' && player.keys > 0) {
+						player.keys -= 1;
+						player.x += 1;
+						map.get(player.y).set(player.x, ' ');
+					} else if(map.get(player.y).get(player.x + 1) == 'D' && player.keys == 0) {
+						System.out.println("You need a key!");
+					} else {
+						player.x += 1;
 					}
 				}
 				
-				player.heal(1000000);
-				e.heal(1000000000);
-				System.out.println("\n");
+				switch(map.get(player.y).get(player.x)) {
+					
+				case('K'):
+					System.out.println("You have found a key");
+					player.keys++;
+				    map.get(player.y).set(player.x, ' ');
+				    break;
+				case('H'):
+					onMap = false;
+					break;
+				case('E'):
+					Enemy enemy = enemies[getRandomNumberInRange(0, enemies.length)];
+					enemy.heal(10000);
+					Fight fight = new Fight(enemy, player);
+					fight.fight();
+					enemy.heal(10000);
+					break;
+				case('i'):
+					Item foundItem = loot[getRandomNumberInRange(0, loot.length - 1)];
+					System.out.println("You have found: " + foundItem.name);
+					player.addItem(foundItem);
+					map.get(player.y).set(player.x, ' ');
+					break;
+				case('g'):
+					int goldAmount = getRandomNumberInRange(1, 20);
+					System.out.println("You have found: " + goldAmount + " gold");
+					player.addGold(goldAmount);;
+					map.get(player.y).set(player.x, ' ');
+					break;
+				
+				}
 				
 			}
+			
+			s.close();
 			
 		}
 		
