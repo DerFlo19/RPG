@@ -28,8 +28,10 @@ public class Main {
 		
 		String maplist = ml.listDirectories();
 		Boolean playing = true;
-		int currentMap = 1;
+		int currentMap = 0;
+		Scanner s = new Scanner(System.in);
 		while(playing) {
+			currentMap++;
 			System.out.println(maplist);
 			ArrayList<ArrayList<Character>> map = ml.loadMap(maplist + "\\map" + currentMap + ".txt");
 			Boolean onMap = true;
@@ -47,34 +49,54 @@ public class Main {
 				}
 								
 			}
-			Scanner s = new Scanner(System.in);
+			
 			while(onMap) {
-
-				for(int i = 0; i < map.size(); i++) {
-					
-					for(int j = 0; j < map.get(i).size(); j++) {
+				
+				int width = 30;
+				int height = 10;
+				
+				System.out.print("+");
+				for(int i = 0; i < width; i++) {
+					System.out.print('-');
+				}
+				System.out.println("+");
+				
+				for(int i = height; i > 0; i--) {
+					System.out.print('|');
+					for(int j = width; j > 0; j--) {
 						
-						char currentChar = map.get(i).get(j);
-						if(i == player.y && j == player.x) {
-							System.out.print('P');
-						} else if(currentChar == 'S') {
-							System.out.print(' ');
-						} else {
-							System.out.print(currentChar);
+						try {
+							char tile = map.get(player.y - i + height/2).get(player.x - j + width/2);
+							if(i == height/2 && j == width/2) {
+								System.out.print('P');
+							} else if(tile == 'S') {
+								System.out.print(' ');
+							} else {
+								System.out.print(tile);
+							}
+						} catch(Exception e) {
+							System.out.print('#');
 						}
 						
 					}
-					
-					System.out.print("\n");
+					System.out.println('|');
 					
 				}
+				System.out.print("+");
+				for(int i = 0; i < width; i++) {
+					System.out.print('-');
+				}
+				System.out.println("+");
 				
 				System.out.println("w - up");
 				System.out.println("a - left");
 				System.out.println("s - down");
 				System.out.println("d - right");
 				System.out.println("i - inventory");
-				String direction = s.next();
+				String direction = "eeeeeeeeeeeeeee";
+				if(s.hasNext()) {
+					direction = s.next();
+				}
 				
 				if(direction.equals("i")) {
 					
@@ -165,11 +187,12 @@ public class Main {
 					onMap = false;
 					break;
 				case('E'):
-					Enemy enemy = enemies[getRandomNumberInRange(0, enemies.length)];
+					Enemy enemy = enemies[getRandomNumberInRange(0, enemies.length - 1)];
 					enemy.heal(10000);
 					Fight fight = new Fight(enemy, player);
 					fight.fight();
 					enemy.heal(10000);
+					map.get(player.y).set(player.x, ' ');
 					break;
 				case('i'):
 					Item foundItem = loot[getRandomNumberInRange(0, loot.length - 1)];
@@ -186,11 +209,11 @@ public class Main {
 				
 				}
 				
-			}
-			
-			s.close();
-			
+			}	
+		
 		}
+		
+		s.close();
 		
 	}
 
