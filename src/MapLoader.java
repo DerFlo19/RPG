@@ -12,7 +12,7 @@ public class MapLoader {
 	}
 	
 	public String listDirectories() {
-		File file = new File("C:\\Users\\flori\\Desktop\\maps");
+		File file = new File("maps");
 		String[] directories = file.list(new FilenameFilter() {
 		  @Override
 		  public boolean accept(File current, String name) {
@@ -24,7 +24,8 @@ public class MapLoader {
 		}
 		Scanner s = new Scanner(System.in);
 		int map = s.nextInt();
-		return "C:\\Users\\flori\\Desktop\\maps\\" + directories[map - 1];
+		
+		return "maps\\" + directories[map - 1];
 	}
 	
 	public ArrayList<ArrayList<Character>> loadMap(String directory) throws IOException {

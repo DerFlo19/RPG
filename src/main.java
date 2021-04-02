@@ -20,7 +20,7 @@ public class Main {
 		
 		MapLoader ml = new MapLoader();
 		
-		Player player = new Player("Flo", 100000, 20, 30, 0, 0);
+		Player player = new Player("player", 100, 20, 30, 0, 0);
 		player.equipWeapon(new Weapon("Stick", 0, 5, 20));
 		
 		Item[] loot = {new Item("Bones", 5), new Item("Bones", 5), new Weapon("Copper Sword", 10, 25, 20)};
@@ -32,8 +32,13 @@ public class Main {
 		Scanner s = new Scanner(System.in);
 		while(playing) {
 			currentMap++;
-			System.out.println(maplist);
-			ArrayList<ArrayList<Character>> map = ml.loadMap(maplist + "\\map" + currentMap + ".txt");
+			ArrayList<ArrayList<Character>> map;
+			try {
+				map = ml.loadMap(maplist + "\\map" + currentMap + ".txt");
+			} catch(Exception e) {
+				playing = false;
+				break;
+			}
 			Boolean onMap = true;
 			for(int i = 0; i < map.size(); i++) {
 				
@@ -157,7 +162,7 @@ public class Main {
 					if(map.get(player.y + 1).get(player.x) == 'D' && player.keys > 0) {
 						player.keys -= 1;
 						player.y += 1;
-						map.get(player.y + 1).set(player.x, ' ');
+						map.get(player.y).set(player.x, ' ');
 					} else if(map.get(player.y).get(player.x) == 'D' && player.keys == 0) {
 						System.out.println("You need a key!");
 					} else {
@@ -192,6 +197,7 @@ public class Main {
 					Fight fight = new Fight(enemy, player);
 					fight.fight();
 					enemy.heal(10000);
+					player.heal(10000);
 					map.get(player.y).set(player.x, ' ');
 					break;
 				case('i'):
